@@ -1,4 +1,4 @@
-package Exceptions;
+package CustomExceptions;
 
 public class InvalidCredentialsInputException extends Exception{
 

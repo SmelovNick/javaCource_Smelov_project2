@@ -1,6 +1,5 @@
-import Exceptions.InvalidCredentialsInputException;
-
 import java.util.Scanner;
+import CustomExceptions.InvalidCredentialsInputException;
 
 public class Application {
     static boolean flag = true;
@@ -28,32 +27,32 @@ public class Application {
                     break;
                 default:
                     System.out.println("Выбрана невалидная опция, попробуйте ещё раз");
-
             }
         }
     }
 
     public void initUsers() {
         System.out.println("Перед началом работы с программой необходимо зарегистрировать новых пользователей.");
-        addNewUser(Role.USER,0);
-        addNewUser(Role.MODERATOR,1);
-        addNewUser(Role.ADMIN,2);
+        try{
+            addNewUser(Role.USER,0);
+            addNewUser(Role.MODERATOR,1);
+            addNewUser(Role.ADMIN,2);
+        }
+        catch(InvalidCredentialsInputException icie){
+            System.out.println(icie.getMessage());
+            initUsers();
+        }
+
     }
 
-    public void addNewUser(Role role, int position){
-        System.out.print("Введите через пробел логин и пароль для нового пользователя с ролью " + role.getRole() + ": ");
+    public void addNewUser(Role role, int position) throws InvalidCredentialsInputException{
+        System.out.print("Введите через пробел логин и пароль для нового пользователя с ролью " + role + ": ");
         boolean flag = false;
-        try {
             String[] creds = scr.nextLine().split(" ");
             if (creds.length < 2)
                 throw new InvalidCredentialsInputException("Логин/пароль нового пользователя введены некорректно");
 
             users[position] = new User(creds[0], creds[1], role);
-        }
-        catch (InvalidCredentialsInputException icie){
-            System.out.println(icie.getMessage());
-            run();
-        }
     }
 
     void login() {
