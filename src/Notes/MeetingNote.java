@@ -1,6 +1,8 @@
 package Notes;
 
-public class MeetingNote //extends Note
+public class MeetingNote extends Note
 {
-    private String[] meetingNotes;
+    public MeetingNote(){
+        this.setNoteType(NoteType.MEETINGNOTE);
+    }
 }

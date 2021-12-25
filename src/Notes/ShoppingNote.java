@@ -1,6 +1,8 @@
 package Notes;
 
-public class ShoppingNote //extends Note
+public class ShoppingNote extends Note
 {
-    private String[] shoplist;
+    public ShoppingNote() {
+        this.setNoteType(NoteType.SHOPPINGNOTE);
+    }
 }

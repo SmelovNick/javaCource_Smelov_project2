@@ -1,6 +1,8 @@
 package Notes;
 
-public class ToDoNote //extends Note
+public class ToDoNote extends Note
 {
-    private String[] tasks;
+    public ToDoNote() {
+        this.setNoteType(NoteType.TODONOTE);
+    }
 }

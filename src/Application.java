@@ -1,11 +1,14 @@
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import CustomExceptions.InvalidCredentialsInputException;
+import Notes.*;
 
 public class Application {
     static boolean flag = true;
     Scanner scr = new Scanner(System.in);
-    private User[] users = new User[3];
     private User activeUser;
+    private User[] users = new User[3];
+    private Note[] notes;
 
     public Application(){
     }
@@ -15,10 +18,10 @@ public class Application {
         initUsers();
         login();
         while(flag){
-            showMenu();
+            showMenu(MenuForm.MAINMENU);
             switch (chooseOption()){
-//                case 1: createNewNote();
-//                    break;
+                case 1: createNewNote();
+                    break;
 //                case 2: searchNote();
 //                    break;
                 case 3: login();
@@ -82,26 +85,57 @@ public class Application {
         }
     }
 
-    void showMenu(){
-        System.out.println("1. Создать новую заметку\n" +
-                "2. Поиск заметки по названию\n" +
-                "3. Войти под другим пользователем\n" +
-                "0. Выход");
+    void showMenu(MenuForm menuForm){
+        System.out.println(menuForm.getMenuForm());
     }
 
     public static int chooseOption(){
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         int option=-1;
-        if(!input.isEmpty() && input.length() ==1) option = Integer.parseInt(input);
+        if(input.length() ==1) option = Integer.parseInt(input);
         return option;
     }
 
     public void createNewNote(){
-
+        showMenu(MenuForm.NOTESMENU);
+        switch (chooseOption()){
+            case 1: createNote(NoteType.DIARYNOTE);
+                break;
+            case 2: createNote(NoteType.MEETINGNOTE);
+                break;
+            case 3: createNote(NoteType.SHOPPINGNOTE);
+                break;
+            case 4: createNote(NoteType.TODONOTE);
+                break;
+            case 0: flag = false;
+                break;
+            default:
+                System.out.println("Выбрана невалидная опция, попробуйте ещё раз");
+        }
+    }
+//TODO доделать
+    void createNote(NoteType noteType) {
+        Note note;
+        switch(noteType){
+            case DIARYNOTE: note = new DiaryNote(activeUser.getLogin());
+            case MEETINGNOTE: note = new MeetingNote(activeUser.getLogin());
+            case SHOPPINGNOTE: note = new ShoppingNote(activeUser.getLogin());
+            case TODONOTE: note = new ToDoNote(activeUser.getLogin());
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + noteType);
+        }
+        System.out.print("Введите название заметки: ");
+        note.setHeader(scr.nextLine());
+        System.out.print("Введите содержание заметки: ");
+        note.setBody(scr.nextLine());
+        note.setNoteCreationTime(LocalDateTime.now());
+        note.setAuthor(activeUser.getLogin());
+        System.out.println(note);
     }
 
     public void searchNote(){
-
+        showMenu(MenuForm.SEARCHBYNAME);
     }
 }
