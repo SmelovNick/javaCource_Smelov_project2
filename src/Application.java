@@ -22,8 +22,8 @@ public class Application {
             switch (chooseOption()){
                 case 1: createNewNote();
                     break;
-//                case 2: searchNote();
-//                    break;
+                case 2: searchNote();
+                    break;
                 case 3: login();
                     break;
                 case 0: flag = false;
@@ -97,45 +97,28 @@ public class Application {
         return option;
     }
 
-    public void createNewNote(){
-        showMenu(MenuForm.NOTESMENU);
-        switch (chooseOption()){
-            case 1: createNote(NoteType.DIARYNOTE);
-                break;
-            case 2: createNote(NoteType.MEETINGNOTE);
-                break;
-            case 3: createNote(NoteType.SHOPPINGNOTE);
-                break;
-            case 4: createNote(NoteType.TODONOTE);
-                break;
-            case 0: flag = false;
-                break;
-            default:
-                System.out.println("Выбрана невалидная опция, попробуйте ещё раз");
+    //TODO переписать
+    public void createNewNote() {
+        boolean createNoteflag = true;
+        while (createNoteflag) {
+            showMenu(MenuForm.NOTESMENU);
+            switch (chooseOption()) {
+                case 1 -> addNoteToArray(new DiaryNote(activeUser.getLogin(), scr));
+                case 2 -> addNoteToArray(new MeetingNote(activeUser.getLogin(), scr));
+                case 3 -> addNoteToArray(new ShoppingNote(activeUser.getLogin(), scr));
+                case 4 -> addNoteToArray(new ToDoNote(activeUser.getLogin(), scr));
+                case 0 -> createNoteflag = false;
+                default -> System.out.println("Выбрана невалидная опция, попробуйте ещё раз");
+            }
         }
-    }
-//TODO доделать
-    void createNote(NoteType noteType) {
-        Note note;
-        switch(noteType){
-            case DIARYNOTE: note = new DiaryNote(activeUser.getLogin());
-            case MEETINGNOTE: note = new MeetingNote(activeUser.getLogin());
-            case SHOPPINGNOTE: note = new ShoppingNote(activeUser.getLogin());
-            case TODONOTE: note = new ToDoNote(activeUser.getLogin());
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + noteType);
-        }
-        System.out.print("Введите название заметки: ");
-        note.setHeader(scr.nextLine());
-        System.out.print("Введите содержание заметки: ");
-        note.setBody(scr.nextLine());
-        note.setNoteCreationTime(LocalDateTime.now());
-        note.setAuthor(activeUser.getLogin());
-        System.out.println(note);
     }
 
+    //TODO доделать
     public void searchNote(){
         showMenu(MenuForm.SEARCHBYNAME);
+    }
+
+    public void addNoteToArray(Note note){
+        System.out.println("Создана новая заметка:\n" + note);
     }
 }
