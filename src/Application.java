@@ -1,13 +1,13 @@
-import java.time.LocalDateTime;
 import java.util.Scanner;
 import CustomExceptions.InvalidCredentialsInputException;
+import CustomExceptions.NullNoteException;
 import Notes.*;
 
 public class Application {
     static boolean flag = true;
     Scanner scr = new Scanner(System.in);
     private User activeUser;
-    private User[] users = new User[3];
+    private final User[] users = new User[3];
     private Note[] notes;
 
     public Application(){
@@ -19,17 +19,12 @@ public class Application {
         login();
         while(flag){
             showMenu(MenuForm.MAINMENU);
-            switch (chooseOption()){
-                case 1: createNewNote();
-                    break;
-                case 2: searchNote();
-                    break;
-                case 3: login();
-                    break;
-                case 0: flag = false;
-                    break;
-                default:
-                    System.out.println("Выбрана невалидная опция, попробуйте ещё раз");
+            switch (chooseOption()) {
+                case 1 -> createNewNote();
+                case 2 -> searchNote();
+                case 3 -> login();
+                case 0 -> flag = false;
+                default -> System.out.println("Выбрана невалидная опция, попробуйте ещё раз");
             }
         }
     }
@@ -97,7 +92,7 @@ public class Application {
         return option;
     }
 
-    //TODO переписать
+    //TODO протестировать
     public void createNewNote() {
         boolean createNoteflag = true;
         while (createNoteflag) {
@@ -114,11 +109,170 @@ public class Application {
     }
 
     //TODO доделать
-    public void searchNote(){
-        showMenu(MenuForm.SEARCHBYNAME);
+    public void searchNote() {
+        boolean searchNoteflag = true;
+        while (searchNoteflag) {
+            showMenu(MenuForm.SEARCHBYNAME);
+            switch (chooseOption()) {
+                case 1 -> showNoteByHeader();
+                case 2 -> changeNoteHeader(activeUser);
+                case 3 -> changeWordInNote(activeUser);
+                case 4 -> changeNoteBody(activeUser);
+                case 5 -> showNoteAuthor();
+                case 6 -> deleteNote();
+                case 0 -> searchNoteflag = false;
+                default -> System.out.println("Выбрана невалидная опция, попробуйте ещё раз");
+            }
+        }
     }
 
-    public void addNoteToArray(Note note){
-        System.out.println("Создана новая заметка:\n" + note);
+
+    //TODO протестировать
+    private boolean validateUser(User activeUser) {
+        if(activeUser.getRole() != Role.USER){
+            return true;
+        }
+        else System.out.println("Текущий пользователь не имеет права на выполнение данной операции.");
+        return false;
+    }
+
+    //TODO протестировать
+    private int findNote() {
+        System.out.print("Введите заголовок заметки: ");
+        String estHeader = scr.nextLine();
+        if (notes != null) {
+            for (int i = 0; i< notes.length; i++) {
+                if (notes[i]!= null && estHeader.equals(notes[i].getHeader())) return i;
+            }
+            System.out.println("По заданному заголовку заметок не найдено.");
+        } else
+            System.out.println("Не сохранено ни одной заметки");
+        return -1;
+    }
+
+    private void showNoteByHeader() {
+        int showNoteIndex = findNote();
+//        if(showNoteIndex>=0) System.out.println(notes[showNoteIndex]);
+        try {
+            if(showNoteIndex>=0) {
+                System.out.println(notes[showNoteIndex]);
+            }
+            else throw new NullNoteException("Данная заметка была удалена ранее.");
+        } catch (NullNoteException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //TODO дописать и протестировать
+    private void changeNoteHeader(User activeUser) {
+        if (validateUser(activeUser)){
+            int showNoteIndex = findNote();
+//            if(showNoteIndex>=0){
+//                System.out.print("Введите новый заголовок для заметки");
+//                String newHeader = scr.nextLine();
+//                if (newHeader !=null) notes[showNoteIndex].setHeader(newHeader);
+//                System.out.println("Установлен новый заголовок");
+//            }
+            try {
+                if(showNoteIndex>=0) {
+                    System.out.print("Введите новый заголовок для заметки");
+                    String newHeader = scr.nextLine();
+                    if (newHeader !=null) notes[showNoteIndex].setHeader(newHeader);
+                    System.out.println("Установлен новый заголовок");
+                }
+                else throw new NullNoteException("Данная заметка была удалена ранее.");
+            } catch (NullNoteException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private void changeWordInNote(User activeUser) {
+        if (validateUser(activeUser)){
+            int showNoteIndex = findNote();
+            String[] words = notes[showNoteIndex].getBody().split(" ");
+//            if(showNoteIndex>=0){
+//                System.out.print("Введите через пробел заменяемое и новое слово: ");
+//                String[] replaceWords = scr.nextLine().split(" ");
+//                if (replaceWords.length == 2) {
+//                    for(String word : words) if(word.equals(replaceWords[1])) word = replaceWords[1];
+//                }
+//                notes[showNoteIndex].setBody(String.join(" ", words));
+//            }
+            try {
+                if(showNoteIndex>=0) {
+                    System.out.print("Введите через пробел заменяемое и новое слово: ");
+                    String[] replaceWords = scr.nextLine().split(" ");
+                    if (replaceWords.length == 2) {
+                        for(String word : words) if(word.equals(replaceWords[1])) word = replaceWords[1];
+                    }
+                    notes[showNoteIndex].setBody(String.join(" ", words));
+                }
+                else throw new NullNoteException("Данная заметка была удалена ранее.");
+            } catch (NullNoteException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private void changeNoteBody(User activeUser) {
+        if (validateUser(activeUser)){
+            int showNoteIndex = findNote();
+//            if(showNoteIndex>=0){
+//                System.out.print("Введите новое содержимое заметки: ");
+//                String newBody = scr.nextLine();
+//                if (newBody!=null) notes[showNoteIndex].setBody(newBody);
+//            }
+            try {
+                if(showNoteIndex>=0) {
+                    System.out.print("Введите новое содержимое заметки: ");
+                    String newBody = scr.nextLine();
+                    if (newBody!=null) notes[showNoteIndex].setBody(newBody);
+                }
+                else throw new NullNoteException("Данная заметка была удалена ранее.");
+            } catch (NullNoteException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private void showNoteAuthor() {
+        int showNoteIndex = findNote();
+//        if(showNoteIndex>=0){
+//            System.out.println(notes[showNoteIndex].getAuthor());
+//        }
+        try {
+            if(showNoteIndex>=0) System.out.println(notes[showNoteIndex].getAuthor());
+            else throw new NullNoteException("Данная заметка была удалена ранее.");
+        } catch (NullNoteException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //TODO уточнить, нужно ли удалять заметку или переводить в null
+    private void deleteNote() {
+        int showNoteIndex = findNote();
+        try {
+            if(showNoteIndex>=0) notes[showNoteIndex] = null;
+            else throw new NullNoteException("Данная заметка была удалена ранее.");
+        } catch (NullNoteException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //TODO протестировать
+    private void addNoteToArray(Note note){
+        System.out.println("Создана новая заметка:\n" + note.getHeader());
+        if(notes ==null){
+            notes = new Note[]{note};
+        }
+        else{
+            Note[]tempNotesArray = new Note[notes.length+1];
+            for(int i=0; i < tempNotesArray.length; i++){
+                if(i == tempNotesArray.length-1) tempNotesArray[i] = note;
+                else tempNotesArray[i] = notes[i];
+            }
+            notes = tempNotesArray;
+        }
     }
 }
