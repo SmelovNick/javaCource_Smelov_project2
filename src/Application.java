@@ -190,7 +190,7 @@ public class Application {
     private void changeWordInNote(User activeUser) {
         if (validateUser(activeUser)){
             int showNoteIndex = findNote();
-            String[] words = notes[showNoteIndex].getBody().split(" ");
+
 //            if(showNoteIndex>=0){
 //                System.out.print("Введите через пробел заменяемое и новое слово: ");
 //                String[] replaceWords = scr.nextLine().split(" ");
@@ -201,6 +201,7 @@ public class Application {
 //            }
             try {
                 if(showNoteIndex>=0) {
+                    String[] words = notes[showNoteIndex].getBody().split(" ");
                     System.out.print("Введите через пробел заменяемое и новое слово: ");
                     String[] replaceWords = scr.nextLine().split(" ");
                     if (replaceWords.length == 2) {
