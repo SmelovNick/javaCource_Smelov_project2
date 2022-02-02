@@ -3,7 +3,7 @@ package Notes;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-public class DiaryNote extends Note
+public class DiaryNote extends Note<NoteType>
 {
     public DiaryNote(String author, Scanner scr) {
         System.out.print("Введите название заметки: ");
@@ -13,5 +13,16 @@ public class DiaryNote extends Note
         this.setNoteCreationTime(LocalDateTime.now());
         this.setAuthor(author);
         this.setNoteType(NoteType.DIARYNOTE);
+    }
+
+    @Override
+    public String toString() {
+        return "DiaryNote{" +
+                "header='" + getHeader() + '\'' +
+                ", body='" + getBody() + '\'' +
+                ", author='" + getAuthor() + '\'' +
+                ", noteCreationTime=" + getNoteCreationTime() + '\'' +
+                ", noteType=" + getNoteType() +
+                '}';
     }
 }

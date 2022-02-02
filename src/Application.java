@@ -152,7 +152,6 @@ public class Application {
 
     private void showNoteByHeader() {
         int showNoteIndex = findNote();
-//        if(showNoteIndex>=0) System.out.println(notes[showNoteIndex]);
         try {
             if(showNoteIndex>=0) {
                 System.out.println(notes[showNoteIndex]);
@@ -167,12 +166,6 @@ public class Application {
     private void changeNoteHeader(User activeUser) {
         if (validateUser(activeUser)){
             int showNoteIndex = findNote();
-//            if(showNoteIndex>=0){
-//                System.out.print("Введите новый заголовок для заметки");
-//                String newHeader = scr.nextLine();
-//                if (newHeader !=null) notes[showNoteIndex].setHeader(newHeader);
-//                System.out.println("Установлен новый заголовок");
-//            }
             try {
                 if(showNoteIndex>=0) {
                     System.out.print("Введите новый заголовок для заметки");
@@ -190,15 +183,6 @@ public class Application {
     private void changeWordInNote(User activeUser) {
         if (validateUser(activeUser)){
             int showNoteIndex = findNote();
-
-//            if(showNoteIndex>=0){
-//                System.out.print("Введите через пробел заменяемое и новое слово: ");
-//                String[] replaceWords = scr.nextLine().split(" ");
-//                if (replaceWords.length == 2) {
-//                    for(String word : words) if(word.equals(replaceWords[1])) word = replaceWords[1];
-//                }
-//                notes[showNoteIndex].setBody(String.join(" ", words));
-//            }
             try {
                 if(showNoteIndex>=0) {
                     String[] words = notes[showNoteIndex].getBody().split(" ");
@@ -219,11 +203,6 @@ public class Application {
     private void changeNoteBody(User activeUser) {
         if (validateUser(activeUser)){
             int showNoteIndex = findNote();
-//            if(showNoteIndex>=0){
-//                System.out.print("Введите новое содержимое заметки: ");
-//                String newBody = scr.nextLine();
-//                if (newBody!=null) notes[showNoteIndex].setBody(newBody);
-//            }
             try {
                 if(showNoteIndex>=0) {
                     System.out.print("Введите новое содержимое заметки: ");
@@ -239,9 +218,6 @@ public class Application {
 
     private void showNoteAuthor() {
         int showNoteIndex = findNote();
-//        if(showNoteIndex>=0){
-//            System.out.println(notes[showNoteIndex].getAuthor());
-//        }
         try {
             if(showNoteIndex>=0) System.out.println(notes[showNoteIndex].getAuthor());
             else throw new NullNoteException("Данная заметка была удалена ранее.");
@@ -250,7 +226,6 @@ public class Application {
         }
     }
 
-    //TODO уточнить, нужно ли удалять заметку или переводить в null
     private void deleteNote() {
         int showNoteIndex = findNote();
         try {

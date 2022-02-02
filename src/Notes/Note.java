@@ -2,12 +2,12 @@ package Notes;
 
 import java.time.LocalDateTime;
 
-public abstract class Note{
+public abstract class Note<T>{
     private String header;
     private String body;
     private String author;
     private LocalDateTime noteCreationTime;
-    private NoteType noteType;
+    private T noteType;
 
 
 
@@ -43,11 +43,11 @@ public abstract class Note{
         this.noteCreationTime = noteCreationTime;
     }
 
-    public NoteType getNoteType() {
+    public T getNoteType() {
         return noteType;
     }
 
-    public void setNoteType(NoteType noteType) {
+    public void setNoteType(T noteType) {
         this.noteType = noteType;
     }
 
