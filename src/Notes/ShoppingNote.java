@@ -27,9 +27,9 @@ public class ShoppingNote extends Note<NoteType>
                 "header='" + getHeader() + '\'' +
                 ", body='" + getBody() + '\'' +
                 ", author='" + getAuthor() + '\'' +
-                ", noteCreationTime=" + getNoteCreationTime() + '\'' +
-                ", noteType=" + getNoteType() +
-                "Several buy points =" + buyPoints.toString() +
+                ", noteCreationTime='" + getNoteCreationTime() + '\'' +
+                ", noteType='" + getNoteType() + '\'' +
+                ", Several buy points ='" + Arrays.toString(buyPoints) + '\'' +
                 '}';
 
     }

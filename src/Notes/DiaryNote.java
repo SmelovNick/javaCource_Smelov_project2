@@ -22,7 +22,7 @@ public class DiaryNote extends Note<NoteType>
                 ", body='" + getBody() + '\'' +
                 ", author='" + getAuthor() + '\'' +
                 ", noteCreationTime=" + getNoteCreationTime() + '\'' +
-                ", noteType=" + getNoteType() +
+                ", noteType=" + getNoteType() + '\'' +
                 '}';
     }
 }

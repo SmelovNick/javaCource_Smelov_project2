@@ -1,6 +1,7 @@
 package Notes;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ToDoNote extends Note<NoteType>
@@ -27,9 +28,9 @@ public class ToDoNote extends Note<NoteType>
                 "header='" + getHeader() + '\'' +
                 ", body='" + getBody() + '\'' +
                 ", author='" + getAuthor() + '\'' +
-                ", noteCreationTime=" + getNoteCreationTime() + '\'' +
-                ", noteType=" + getNoteType() +
-                "Several TODO points =" + toDoPoints.toString() +
+                ", noteCreationTime='" + getNoteCreationTime() + '\'' +
+                ", noteType='" + getNoteType() + '\'' +
+                ", Several TODO points ='" + Arrays.toString(toDoPoints) + '\'' +
                 '}';
 
     }

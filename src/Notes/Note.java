@@ -57,8 +57,8 @@ public abstract class Note<T>{
                 "header='" + header + '\'' +
                 ", body='" + body + '\'' +
                 ", author='" + author + '\'' +
-                ", noteCreationTime=" + noteCreationTime +
-                ", noteType=" + noteType +
+                ", noteCreationTime='" + noteCreationTime +
+                ", noteType='" + noteType + '\'' +
                 '}';
     }
 }

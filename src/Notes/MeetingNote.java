@@ -21,8 +21,8 @@ public class MeetingNote extends Note<NoteType>
                 "header='" + getHeader() + '\'' +
                 ", body='" + getBody() + '\'' +
                 ", author='" + getAuthor() + '\'' +
-                ", noteCreationTime=" + getNoteCreationTime() + '\'' +
-                ", noteType=" + getNoteType() +
+                ", noteCreationTime='" + getNoteCreationTime() + '\'' +
+                ", noteType='" + getNoteType() + '\'' +
                 '}';
 
     }
